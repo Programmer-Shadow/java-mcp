@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: stage02-spring-ai
+  main:
+    web-application-type: none
+    banner-mode: "off"
+  ai:
+    # 这里是大模型连接，不是 MCP 连接。
+    openai:
+      api-key: ${AI_API_KEY:${OPENAI_API_KEY:}}
+      base-url: ${AI_BASE_URL:https://api.openai.com}
+      chat:
+        completions-path: ${AI_COMPLETIONS_PATH:/v1/chat/completions}
+        options:
+          model: ${AI_MODEL:gpt-5.6-terra}
+          reasoning-effort: none
+          temperature: 1.0
+    retry:
+      max-attempts: 1
+  http:
+    client:
+      connect-timeout: 10s
+      read-timeout: 60s
+logging:
+  level:
+    root: WARN
+stage02:
+  java-command: ${MCP_JAVA_COMMAND:${java.home}/bin/java}

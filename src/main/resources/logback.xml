@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <!-- 两个阶段共用日志依赖；STDIO 服务端的 stdout 专供 MCP 协议。 -->
+  <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.err</target>
+    <encoder><pattern>%level %logger{36} - %msg%n</pattern></encoder>
+  </appender>
+  <root level="INFO"><appender-ref ref="STDERR"/></root>
+</configuration>

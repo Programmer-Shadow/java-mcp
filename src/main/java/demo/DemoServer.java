@@ -60,4 +60,3 @@ public class    DemoServer {
         return new BigDecimal(value.toString());
     }
 }
-

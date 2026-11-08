@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.15</version>
+    <relativePath/>
+  </parent>
   <groupId>demo</groupId>
   <artifactId>java-mcp-demo</artifactId>
   <version>1.0.0</version>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
+    <java.version>17</java.version>
+    <spring-ai.version>1.1.8</spring-ai.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <dependencyManagement><dependencies><dependency>
+    <groupId>org.springframework.ai</groupId>
+    <artifactId>spring-ai-bom</artifactId>
+    <version>${spring-ai.version}</version>
+    <type>pom</type><scope>import</scope>
+  </dependency></dependencies></dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>io.modelcontextprotocol.sdk</groupId>
@@ -15,9 +29,13 @@
       <version>2.0.1</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>2.0.17</version>
+      <groupId>org.springframework.ai</groupId>
+      <artifactId>spring-ai-starter-model-openai</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -25,29 +43,24 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.14.0</version>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration><archive><manifest>
+          <mainClass>demo.DemoClient</mainClass>
+          <addClasspath>true</addClasspath>
+          <classpathPrefix>lib/</classpathPrefix>
+        </manifest></archive></configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.6.1</version>
-        <executions><execution><phase>package</phase><goals><goal>shade</goal></goals>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.8.1</version>
+        <executions><execution><phase>prepare-package</phase><goals><goal>copy-dependencies</goal></goals>
           <configuration>
-            <createDependencyReducedPom>false</createDependencyReducedPom>
-            <filters><filter><artifact>*:*</artifact><excludes>
-              <exclude>META-INF/*.SF</exclude><exclude>META-INF/*.RSA</exclude><exclude>META-INF/*.DSA</exclude>
-            </excludes></filter></filters>
-            <transformers>
-              <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>demo.DemoClient</mainClass>
-              </transformer>
-            </transformers>
+            <includeScope>runtime</includeScope>
+            <outputDirectory>${project.build.directory}/lib</outputDirectory>
           </configuration>
         </execution></executions>
       </plugin>
     </plugins>
   </build>
 </project>
-
