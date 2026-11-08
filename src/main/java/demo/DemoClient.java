@@ -22,7 +22,7 @@ public class DemoClient {
             throw new IllegalArgumentException("Usage: java -jar target/java-mcp-demo.jar [a b | --errors]");
         }
         var java = Path.of(System.getProperty("java.home"), "bin", "java").toString();
-        // 同时支持 IDEA 运行 main，以及打包后的 java -jar 运行。
+        // 同时支持 IDEA 运行 main，以及打包后的 java -jar 运行。 启动服务端，才能知道服务端需要的格式是什么样子
         var parameters = ServerParameters.builder(java)
                 .args("-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
                         "-Duser.language=en", "-Duser.country=US", "-cp", System.getProperty("java.class.path"),

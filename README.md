@@ -1,5 +1,8 @@
 # Java MCP：从传两个数字开始
 
+项目共用根目录的 `pom.xml`、`src` 和 `target`。第一阶段位于 `src/main/java/demo`，第二阶段位于 `src/main/java/lesson/stage02`；第二阶段说明见 [阶段02教程](docs/stage02/README.md)。
+根目录执行 `mvn clean verify` 可统一构建、测试。构建输出为 `target/java-mcp-demo.jar` 和 `target/lib`，运行或复制时请保留这两部分。
+
 这是第一课：一个 Maven 项目、两个 Java 类、一个 `add` 工具。没有大模型、API Key、Spring 容器、数据库。
 
 ## 1. 先把 MCP 理解成什么？
